@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Aula2407.Models.Cliente>
 
-@{                    
+@{
     ViewData["Title"] = "BuscarClientes";
     Layout = "~/Views/Shared/_NossoLayout.cshtml";
+    int qtdePaginas = ViewBag.QtdePaginas;
+    int paginaAtual = ViewBag.PaginaAtual;
 }
 
 @if (TempData["msg"] as string == "2")
@@ -27,102 +29,112 @@ else if (TempData["msg"] as string == "1")
 <p>
     <a class="btn btn-primary" asp-action="CadastroCliente">Cadastrar Cliente</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CPF)
-            </th>
-@*             <th>
-                @Html.DisplayNameFor(model => model.RG)
-            </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            @*             <th>
-            @Html.DisplayNameFor(model => model.Senha)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.CEP)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.UF)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Cidade)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Bairro)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Rua)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Numero)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Complemento)
-            </th> *@
-            <th></th>
-        </tr>
+
+<div class="container mt-5">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="itemTabs" role="tablist">
+        @for (int i = 1; i <= qtdePaginas; i++)
+        {
+            <li class="nav-item" role="presentation">
+                <a class="nav-link @(i == paginaAtual ? "active" : "")" id="tab-@i"
+                   data-bs-toggle="tab" href="#page-@i" role="tab" aria-controls="page-@i"
+                   aria-selected="@(i == qtdePaginas ? "true" : "false")">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+    <!-- Tab content -->
+    <div class="tab-content">
+        @for (int i = 1; i <= qtdePaginas; i++)
+        {
+            <div class="tab-pane fade @(i == paginaAtual ? "show active" : "")"
+                 id="page-@i" role="tabpanel" aria-labelledby="tab-@i">
+                <table class="table table-bordered table-striped table-hover rounded">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nome)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Usuario)
+                            </th>
+                            <th>
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Skip((i - 1) * 10).Take(10))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usuario)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" style="padding:0.2rem;" asp-action="CadastroCliente" asp-route-id="@item.Id">Alterar</a> |
+                                    <a class="btn btn-primary" style="padding:0.2rem;" asp-action="DetalhesCliente" asp-route-id="@item.Id">Detalhes</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+    @* <table class="table"> *@
+
+    @*     <thead>
+    <tr>
+    <th>
+    @Html.DisplayNameFor(model => model.Id)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Nome)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Nome)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.CPF)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Usuario)
+    </th>
+
+    <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CPF)
-                </td>
-@*                 <td>
-                    @Html.DisplayFor(modelItem => item.RG)
-                </td> *@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario)
-                </td>
-                @*       <td>
-            @Html.DisplayFor(modelItem => item.Senha)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.CEP)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.UF)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Cidade)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Bairro)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Rua)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Complemento)
-            </td> *@
-                <td>
-                    <a class="btn btn-primary" asp-action="CadastroCliente" asp-route-id="@item.Id">Alterar</a> |
-                    <a class="btn btn-primary" asp-action="DetalheClientes" asp-route-id="@item.Id">Detalhes</a> 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @foreach (var item in Model)
+    {
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Nome)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.CPF)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Usuario)
+    </td> *@
+
+    @*     </tbody>
+    </table> *@
+
