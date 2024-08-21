@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Aula2407.Models.Produto>
+
+@{
+    ViewData["Title"] = "BuscarProdutos";
+    Layout = "~/Views/Shared/_NossoLayout.cshtml";
+}
+
+@if (TempData["msg"] as string == "2")
+{
+    <div class="alert alert-success">
+        <span>
+            Dados alterados com sucesso!
+        </span>
+    </div>
+}
+else if (TempData["msg"] as string == "1")
+{
+    <div class="alert alert-success">
+        <span>
+            Dados cadastrado com sucesso!
+        </span>
+    </div>
+}
+else if (TempData["msg"] as string == "3")
+{
+    <div class="alert alert-success">
+        <span>
+            Dados Deletados com sucesso!
+        </span>
+    </div>
+}
+
+<h1 class="display-3 aling-content-center">Produtos</h1>
+
+<p>
+    <a class=" btn btn-primary" asp-action="CadastroProduto">Novo Produto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fabricante)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.ValordeCompra)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.ValordeVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fabricante)
+                </td>
+ @*                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+@*                 <td>
+                    @Html.DisplayFor(modelItem => item.ValordeCompra)
+                </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValordeVenda)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                        <a class="btn btn-primary" asp-action="CadastroProduto" asp-route-id="@item.Id">Alterar</a> |
+                        <a class="btn btn-primary" asp-action="DetalhesProduto" asp-route-id="@item.Id">Detalhes</a> |
+    @*                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+                </td>
+            </tr>
+}
+    </tbody>
+</table>

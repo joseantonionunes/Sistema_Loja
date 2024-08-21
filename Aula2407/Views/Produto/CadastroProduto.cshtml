@@ -1,0 +1,54 @@
+﻿@model Aula2407.Models.Produto
+
+@{
+    ViewData["Title"] = "..::Cadastro Produto::..";
+}
+
+@* Codigo formulario cadastro produto *@
+<div class="container">
+    @* LINHA TITULO *@
+    <div class="row">
+        <div class="col text-center">
+            <h1>Cadastro Produto</h1>
+        </div>
+    </div>
+    <form method="post">
+        @* LINHA NOME*@
+        <div class="row">
+            <div class="col-lg-3">
+                <label asp-for="Nome" class="col-sm-2 col-form-label fw-bold"></label>
+                <input asp-for="Nome" type="text" class="form-control" id="Nome" />
+            </div>
+            <div class="col-lg-3">
+                <label asp-for="Fabricante" class="col-form-label fw-bold"></label>
+                <input asp-for="Fabricante" type="text" class="form-control" id="Fabricante">
+            </div>
+            <div class="col-lg-2">
+                <label asp-for="Codigo" class="col-form-label fw-bold"></label>
+                <input asp-for="Codigo" type="number" class="form-control" id="Codigo">
+            </div>
+            <div class="col-lg-2">
+                <label asp-for="Quantidade" class="col-form-label fw-bold text-nowrap"></label>
+                <input asp-for="Quantidade" type="number" class="form-control" id="Quantidade">
+            </div>
+            <div class="col-lg-2">
+                <label asp-for="ValordeCompra" class="col-sm col-form-label fw-bold"></label>
+                <input asp-for="ValordeCompra" type="number" class="form-control" id="ValordeCompra" />
+            </div>
+            <div class="col-lg-2">
+                <label asp-for="ValordeVenda" class="col-sm col-form-label fw-bold"></label>
+                <input asp-for="ValordeVenda" type="number" class="form-control" id="ValordeVenda" />
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label asp-for="Descricao" class="col-sm-2 col-form-label fw-bold"></label>
+                    <input asp-for="Descricao" type="text" class="form-control" id="Descricao" />
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-md-end">
+                <div class="col-3 d-flex justify-content-end">
+                    <input type="submit" class="btn btn-outline-info btn-lg" name="name" value="Cadastrar" />
+                </div>
+            </div>
+    </form>
+</div>
