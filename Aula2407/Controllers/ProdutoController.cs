@@ -15,9 +15,20 @@ namespace Aula2407.Controllers
         }
 
         //BUSCAR PRODUTO
-        public async Task<IActionResult> BuscarProdutos()
+        public async Task<IActionResult> BuscarProdutos(int pagina = 1)
         {
-            return View(await _context.Produtos.ToListAsync());
+            var QtdeTProduto = 3;
+
+            var items = await _context.Produtos.OrderBy(c => c.Id).ToListAsync();
+            //var pagedItems = items.Skip((pagina - 1) * QtdeTClientes).Take(QtdeTClientes).ToList();
+
+            ViewBag.QtdePaginas = (int)Math.Ceiling((double)items.Count() / QtdeTProduto);
+            ViewBag.PaginaAtual = pagina;
+            ViewBag.QtdeTProduto = QtdeTProduto;
+
+            return View(items);
+
+            //return View(await _context.Produtos.ToListAsync());
         }
 
 

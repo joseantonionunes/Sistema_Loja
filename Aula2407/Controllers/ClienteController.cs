@@ -16,15 +16,16 @@ namespace Aula2407.Controllers
         //BUSCAR CLIENTE
         public async Task<IActionResult> BuscarClientes(int pagina = 1)
         {
-            var QtdeTClientes = 2;
+            var QtdeTClientes = 3;
             
-            var items = await _context.Clientes.ToListAsync();
-            var pagedItems = items.Skip((pagina - 1) * QtdeTClientes).Take(QtdeTClientes).ToList();
+            var items = await _context.Clientes.OrderBy(c => c.Id).ToListAsync();
+            //var pagedItems = items.Skip((pagina - 1) * QtdeTClientes).Take(QtdeTClientes).ToList();
 
             ViewBag.QtdePaginas = (int)Math.Ceiling((double)items.Count() / QtdeTClientes);
             ViewBag.PaginaAtual = pagina;
+            ViewBag.QtdeTClientes = QtdeTClientes;
 
-            return View(pagedItems);
+            return View(items);
 
             //return View(await _context.Clientes.ToListAsync());
         }

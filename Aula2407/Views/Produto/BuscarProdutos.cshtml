@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "BuscarProdutos";
     Layout = "~/Views/Shared/_NossoLayout.cshtml";
+    int qtdePaginas = ViewBag.QtdePaginas;
+    int paginaAtual = ViewBag.PaginaAtual;
+    int QtdeTProduto = ViewBag.QtdeTProduto;
 }
 
 @if (TempData["msg"] as string == "2")
@@ -35,7 +38,73 @@ else if (TempData["msg"] as string == "3")
 <p>
     <a class=" btn btn-primary" asp-action="CadastroProduto">Novo Produto</a>
 </p>
-<table class="table">
+
+<div class="container mt-5">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="itemTabs" role="tablist">
+        @for (int i = 1; i <= qtdePaginas; i++)
+        {
+            <li class="nav-item" role="presentation">
+                <a class="nav-link @(i == paginaAtual ? "active" : "")"
+                   id="tab-@i" data-bs-toggle="tab" href="#page-@i" role="tab"
+                   aria-controls="page-@i" aria-selected="@(i == qtdePaginas ? "true" : "false")">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+    <!-- Tab content -->
+    <div class="tab-content">
+        @for (int i = 1; i <= qtdePaginas; i++)
+        {
+            <div class="tab-pane fade @(i == paginaAtual ? "show active" : "")"
+                 id="page-@i" role="tabpanel" aria-labelledby="tab-@i">
+                <table class="table table-bordered table-striped table-hover rounded">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nome)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fabricante)
+                            </th>
+                            <th>
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Skip((i - 1) * QtdeTProduto).Take(QtdeTProduto))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fabricante)
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" style="padding:0.2rem;" asp-action="CadastroCliente" asp-route-id="@item.Id">Alterar</a> |
+                                    <a class="btn btn-primary" style="padding:0.2rem;" asp-action="DetalheClientes" asp-route-id="@item.Id">Detalhes</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+@* <table class="table">
     <thead>
         <tr>
             <th>
@@ -44,15 +113,10 @@ else if (TempData["msg"] as string == "3")
             <th>
                 @Html.DisplayNameFor(model => model.Fabricante)
             </th>
-@*             <th>
-                @Html.DisplayNameFor(model => model.Codigo)
-            </th> *@
+
             <th>
                 @Html.DisplayNameFor(model => model.Quantidade)
             </th>
-@*             <th>
-                @Html.DisplayNameFor(model => model.ValordeCompra)
-            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.ValordeVenda)
             </th>
@@ -71,15 +135,9 @@ else if (TempData["msg"] as string == "3")
                 <td>
                     @Html.DisplayFor(modelItem => item.Fabricante)
                 </td>
- @*                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo)
-                </td> *@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantidade)
                 </td>
-@*                 <td>
-                    @Html.DisplayFor(modelItem => item.ValordeCompra)
-                </td> *@
                 <td>
                     @Html.DisplayFor(modelItem => item.ValordeVenda)
                 </td>
@@ -89,9 +147,8 @@ else if (TempData["msg"] as string == "3")
                 <td>
                         <a class="btn btn-primary" asp-action="CadastroProduto" asp-route-id="@item.Id">Alterar</a> |
                         <a class="btn btn-primary" asp-action="DetalhesProduto" asp-route-id="@item.Id">Detalhes</a> |
-    @*                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                 </td>
             </tr>
 }
     </tbody>
-</table>
+</table> *@
